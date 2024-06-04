@@ -15,32 +15,7 @@ Node *searchNode(Node *headNode, int key);
 
 Node *insertNode(Node *headNode, int key, int value, int position);
 
-int main(void) {
-    Node *headNode = createNode(1, 10);
-    headNode->nextNode = createNode(2, 20);
-    headNode->nextNode->nextNode = createNode(3, 30);
-    headNode->nextNode->nextNode->nextNode = createNode(4, 40);
-
-    printf("Original list:\n");
-    printList(headNode);
-
-    int keyToSearch = 3;
-    Node *foundNode = searchNode(headNode, keyToSearch);
-    if (foundNode != NULL) {
-        printf("Value for key %d is %d.\n", keyToSearch, foundNode->value);
-    } else {
-        printf("Key not found in the list: %d.\n", keyToSearch);
-    }
-
-    headNode = insertNode(headNode, 5, 50, 0);
-    headNode = insertNode(headNode, 6, 60, 2);
-    headNode = insertNode(headNode, 7, 70, 6);
-
-    printf("List after insertions:\n");
-    printList(headNode);
-
-    return 0;
-}
+void removeNode(Node **headNodePointer, int key);
 
 Node *createNode(int key, int data) {
     Node *newNode = (Node *) malloc(sizeof(Node));
@@ -87,7 +62,7 @@ Node *insertNode(Node *headNode, int key, int value, int position) {
         count++;
     }
     if (currentNode == NULL) {
-        printf("Position out of founds.\n");
+        printf("Position out of bounds.\n");
         return headNode;
     }
     newNode->nextNode = currentNode->nextNode;
@@ -95,4 +70,59 @@ Node *insertNode(Node *headNode, int key, int value, int position) {
     return headNode;
 }
 
+void removeNode(Node **headNodePointer, int key) {
+    if (headNodePointer == NULL || *headNodePointer == NULL) {
+        printf("List is empty.\n");
+        return;
+    }
+    Node *headNode = *headNodePointer;
+    Node *nodeToBeRemoved = searchNode(headNode, key);
 
+    if (nodeToBeRemoved == NULL) {
+        printf("Node not found.\n");
+        return;
+    }
+    if (nodeToBeRemoved == headNode) {
+        *headNodePointer = headNode->nextNode;
+        free(headNode);
+        return;
+    }
+    Node *currentNode = headNode;
+
+    while (currentNode->nextNode != nodeToBeRemoved) {
+        currentNode = currentNode->nextNode;
+    }
+    currentNode->nextNode = nodeToBeRemoved->nextNode;
+    free(nodeToBeRemoved);
+}
+
+int main(void) {
+    Node *headNode = createNode(1, 10);
+    headNode->nextNode = createNode(2, 20);
+    headNode->nextNode->nextNode = createNode(3, 30);
+    headNode->nextNode->nextNode->nextNode = createNode(4, 40);
+
+    printf("Original list:\n");
+    printList(headNode);
+
+    int keyToSearch = 3;
+    Node *foundNode = searchNode(headNode, keyToSearch);
+    if (foundNode != NULL) {
+        printf("Value for key %d is %d.\n", keyToSearch, foundNode->value);
+    } else {
+        printf("Key not found in the list: %d.\n", keyToSearch);
+    }
+
+    headNode = insertNode(headNode, 5, 50, 0);
+    headNode = insertNode(headNode, 6, 60, 2);
+    headNode = insertNode(headNode, 7, 70, 6);
+    removeNode(&headNode, 6);
+    removeNode(&headNode, 5);
+    removeNode(&headNode, 20);
+
+
+    printf("List after insertions:\n");
+    printList(headNode);
+
+    return 0;
+}
