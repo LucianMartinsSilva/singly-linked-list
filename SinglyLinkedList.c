@@ -1,7 +1,7 @@
 //
 // Created by Lucian on 09/06/2024.
 //
-#include "DoublyLinkedList.h"
+#include "SinglyLinkedList.h"
 
 Node *createNode(int key, int data) {
     Node *newNode = (Node *) malloc(sizeof(Node));

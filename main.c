@@ -1,4 +1,4 @@
-#include "DoublyLinkedList.c"
+#include "SinglyLinkedList.c"
 
 int main(void) {
     Node *headNode = createNode(1, 10);

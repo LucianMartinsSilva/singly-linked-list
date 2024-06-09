@@ -4,6 +4,6 @@ project(LinkedList C)
 set(CMAKE_C_STANDARD 23)
 
 add_executable(LinkedList main.c
-        DoublyLinkedList.h
-        DoublyLinkedList.c
+        SinglyLinkedList.h
+        SinglyLinkedList.c
 )
